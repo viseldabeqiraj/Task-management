@@ -1,4 +1,6 @@
 using Microsoft.AspNetCore.Identity;
+using TaskManagement.API.Services;
+using TaskManagement.Domain.Interfaces;
 using TaskManagement.Domain.Models;
 using TaskManagement.Infrastructure;
 using TaskManagement.Infrastructure.Data;
@@ -16,23 +18,13 @@ builder.Services.AddIdentity<ApplicationUser, ApplicationRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>()
     .AddDefaultTokenProviders();
 
-//var identityServerBuilder = builder.Services.AddIdentityServer()
-//    .AddInMemoryPersistedGrants()
-//    .AddInMemoryIdentityResources(IdentityServerConfig.GetIdentityResources())
-//    .AddInMemoryApiScopes(IdentityServerConfig.GetApiScopes())
-//    .AddInMemoryApiResources(IdentityServerConfig.GetApiResources())
-//    .AddInMemoryClients(IdentityServerConfig.GetClients())
-//    .AddAspNetIdentity<ApplicationUser>()
-//    .AddProfileService<ProfileService>()
-//    .AddCustomTokenRequestValidator<CustomValidationToken>();
-
-// Configure Identity options and password complexity here
 builder.Services.Configure<IdentityOptions>(options =>
 {
     options.User.RequireUniqueEmail = true;
 });
 //builder.Services.AddAutoMapper(Assembly.GetAssembly(typeof(AutoMapperProfile)));
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+builder.Services.AddScoped<ITaskService, TaskService>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

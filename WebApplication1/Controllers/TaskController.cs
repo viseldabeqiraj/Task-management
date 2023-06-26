@@ -14,10 +14,11 @@ namespace TaskManagement.API.Controllers
             _taskService = taskService;
         }
 
-        [HttpGet(nameof(GetAllTasks))]
-        public IActionResult GetAllTasks()
+        [HttpGet(nameof(GetTaskById))]
+        public IActionResult GetTaskById(int id)
         {
-            return Ok();
+            var result = _taskService.GetTaskById(id);
+            return Ok(result);
         }
     }
 }
