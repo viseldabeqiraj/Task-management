@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Configuration;
 using TaskManagement.API.Services;
 using TaskManagement.Domain.Interfaces;
 using TaskManagement.Domain.Models;
@@ -6,6 +7,8 @@ using TaskManagement.Infrastructure;
 using TaskManagement.Infrastructure.Data;
 
 var builder = WebApplication.CreateBuilder(args);
+IConfiguration Configuration;
+Configuration = builder.Configuration;
 
 // Add services to the container.
 
@@ -22,6 +25,8 @@ builder.Services.Configure<IdentityOptions>(options =>
 {
     options.User.RequireUniqueEmail = true;
 });
+builder.Services.AddApplicationDbContext(Configuration.GetConnectionString("SqlServerMainDB"));
+
 //builder.Services.AddAutoMapper(Assembly.GetAssembly(typeof(AutoMapperProfile)));
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<ITaskService, TaskService>();
